@@ -16,7 +16,8 @@ ENV SERVICE_URL_ACTIVITIES https://activitiesservice.experimental.slidewiki.org
 
 
 
-ADD ./Analytics.war /usr/local/tomcat/webapps/analytics.war
+#ADD ./Analytics.war /usr/local/tomcat/webapps/analytics.war
+ADD ./analytics /usr/local/tomcat/webapps/analytics
 RUN mkdir /home/prediction
 ADD ./temp_test.txt /home/prediction/temp_test.txt
 #ADD server.xml /usr/local/tomcat/conf/
