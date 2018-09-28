@@ -21,35 +21,8 @@ public class ActivitiesServiceConnector {
 //    public static String activitiesServiceUrl = System.getenv("SERVICE_URL_ACTIVITIES");
     public static String activitiesServiceUrl = "https://activitiesservice.experimental.slidewiki.org";
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     public static void createActivity(PredictionJob pj, String jwt) {
         String url = activitiesServiceUrl + "/activity/new";
-        
-        
-        
-        
-        
-//TREBA NAM I JWT (POSLATI KAD SE KREIRA NOVI PREDICTION JOB
-        jwt = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjE2LCJ1c2VybmFtZSI6ImRwYXVuIiwiZW1haWwiOiJkZWphbi5wYXVub3ZpY0BwdXBpbi5ycyIsImlzUmV2aWV3ZXIiOmZhbHNlLCJpYXQiOjE1MzgwNDA1MjF9.o-HQaODcsdkjTJD1wwJ-6ctdp4iy-nK6sAtjrs5g2CXHASrS_qvqO-rncL2WjeL867mev0vvF1-phc6Kaw-W1g";
-        
-
-
-
-        
         
         try {
             URL object = new URL(url);
@@ -62,17 +35,18 @@ public class ActivitiesServiceConnector {
             con.setRequestProperty("----jwt----", jwt);
             con.setRequestMethod("POST");
 
-                            JSONObject data = new JSONObject();
-                            JSONObject comment_info = new JSONObject();
-                            data.put("activity_type", "comment");
-                            data.put("user_id", pj.getUserId());
-                            data.put("content_id", "4676-1");
-//                            data.put("content_id", pj.getDeckId());
-                            data.put("content_kind", "deck");
-                            comment_info.put("comment_id", "111");
-                            comment_info.put("text", "asdf");
-                            data.put("comment_info", comment_info);
-                            
+            JSONObject data = new JSONObject();
+            JSONObject prediction_info = new JSONObject();
+            data.put("activity_type", "prediction");
+            data.put("user_id", pj.getUserId());
+            data.put("content_id", pj.getDeckId());
+            data.put("content_kind", "deck");
+            prediction_info.put("prediction_activity_type", "end");
+            prediction_info.put("result", pj.getResult().toString());
+            prediction_info.put("accuracy", pj.getAccuracy().toString());
+            prediction_info.put("no_of_users", pj.getNoOfUsers().toString());
+            prediction_info.put("no_of_decks", pj.getNoOfDecks().toString());
+            data.put("prediction_info", prediction_info);
 
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
             wr.write(data.toString());
@@ -104,7 +78,7 @@ public class ActivitiesServiceConnector {
             e.printStackTrace();
         }
     }
-                
+    
     public static List<String> getLikedDecks(String userId) {
 //        System.out.println("getLikedDecks " + userId);
         List<String> listOfLikedDecks = new ArrayList<>();

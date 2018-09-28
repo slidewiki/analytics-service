@@ -50,7 +50,8 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public PredictionJob create(String entity) {
+    public List<PredictionJob> create(String entity) {
+        
 //        long id = 0;
         try {
             JSONObject jsonObject = new JSONObject(entity);
@@ -108,9 +109,15 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
             pj.setNoOfUsers(noOfUsers);
             pj.setNoOfDecks(noOfDecks);
             
+            
+            
+            
             //CREATE NEW ACTIVITY
             ActivitiesServiceConnector.createActivity(pj, jwt);
             
+
+
+
             
             
 //            pj.setAccuracy(pred_product);      //this is not accuracy
@@ -121,13 +128,60 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
             
 //            DBConnector.updatePredictionJob(id, pred_product, pred_rating);
             
-//            return findByUserId(userId);
-            return pj;
+//            return findByUserId(userId
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////
+return new ArrayList();
 //        } catch (JSONException ex) {
         } catch (JSONException | IOException ex) {
             Logger.getLogger(PredictionJobFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new PredictionJob();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //////////////////////////////////////////
+        return new ArrayList();
     }
 
     @GET
