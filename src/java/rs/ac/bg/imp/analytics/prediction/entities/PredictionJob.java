@@ -61,6 +61,8 @@ public class PredictionJob implements Serializable {
     private Integer noOfUsers;
     @Column(name = "no_of_decks")
     private Integer noOfDecks;
+    
+    private String relatedPredictionActivityId;
 
     public PredictionJob() {
     }
@@ -139,6 +141,14 @@ public class PredictionJob implements Serializable {
 
     public void setNoOfDecks(Integer noOfDecks) {
         this.noOfDecks = noOfDecks;
+    }
+
+    public String getRelatedPredictionActivityId() {
+        return relatedPredictionActivityId;
+    }
+
+    public void setRelatedPredictionActivityId(String relatedPredictionActivityId) {
+        this.relatedPredictionActivityId = relatedPredictionActivityId;
     }
         
 

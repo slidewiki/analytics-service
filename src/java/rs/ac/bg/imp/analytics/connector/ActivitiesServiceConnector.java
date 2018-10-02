@@ -42,6 +42,7 @@ public class ActivitiesServiceConnector {
             data.put("content_id", pj.getDeckId());
             data.put("content_kind", "deck");
             prediction_info.put("prediction_activity_type", "end");
+            prediction_info.put("related_prediction_activity_id", pj.getRelatedPredictionActivityId());
             prediction_info.put("result", pj.getResult().toString());
             prediction_info.put("accuracy", pj.getAccuracy().toString());
             prediction_info.put("no_of_users", pj.getNoOfUsers().toString());

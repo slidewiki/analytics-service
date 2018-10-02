@@ -58,6 +58,7 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
             String userId = jsonObject.get("user_id").toString();
             String deckId = jsonObject.get("deck_id").toString();
             String jwt = jsonObject.get("jwt").toString();
+            String relatedPredictionActivityId = jsonObject.get("related_prediction_activity_id").toString();
             boolean useDummyData = jsonObject.getBoolean("dummy");
             //{"user_id": 16, "deck_id": 5, "dummy": true}
             
@@ -109,7 +110,7 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
             pj.setNoOfUsers(noOfUsers);
             pj.setNoOfDecks(noOfDecks);
             
-            
+            pj.setRelatedPredictionActivityId(relatedPredictionActivityId);
             
             
             //CREATE NEW ACTIVITY
@@ -132,55 +133,15 @@ public class PredictionJobFacadeREST extends AbstractFacade<PredictionJob> {
 
 
 
+            List<PredictionJob> resultList = new ArrayList();
+            resultList.add(pj);
+            return resultList;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////
-return new ArrayList();
 //        } catch (JSONException ex) {
         } catch (JSONException | IOException ex) {
             Logger.getLogger(PredictionJobFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //////////////////////////////////////////
         return new ArrayList();
     }
 
