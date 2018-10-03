@@ -3,7 +3,7 @@ FROM tomcat:8-jre8
 MAINTAINER "Dejan Paunovic <dejan.paunovic@institutepupin.com>"
 
 ENV SERVICE_URL_ACTIVITIES https://activitiesservice.experimental.slidewiki.org
-
+# ENV SERVICE_URL_ACTIVITIES http://172.17.42.1:5000
 
 
 
