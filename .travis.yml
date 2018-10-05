@@ -13,24 +13,20 @@ cache:
   - "./build/web/WEB-INF/lib"
 before_install:
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/install_compose.sh ; fi
-- cd application
 before_script:
-- npm update --dev
-- npm run start:mongodb
+- echo "Prepare to run the script section"
 script:
-- sleep 15
-- npm run lint
-- npm run test:unit
-- npm run test:integration
+- echo "Compile Project"
+- echo "Execute Various Tests"
+- echo "Do More Checks"
 after_success:
-- cd ..
 - openssl aes-256-cbc -K $encrypted_4cc90241bacd_key -iv $encrypted_4cc90241bacd_iv -in deployment_keys.tar.enc -out deployment_keys.tar -d
+- echo "Add script or change dockerhub.sh to have the docker build process working for this project"
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/dockerhub.sh ; fi
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/deploy.sh ; fi
 - cd application
 after_script:
-- npm run coverall
-- npm run stop:mongodb
+- echo "Tidy Up"
 - rm -f deployment_keys.tar
 - rm -f ~/.docker/{cert.pem,key.pem,ca.pem,config.json}
 services:
@@ -39,12 +35,6 @@ notifications:
   slack:
     on_success: change
     on_failure: always
-    rooms:
-      secure: eKjd2CkUxialyFQHCBZorz7zf/3db3RYgOODi9V0iaG/twwzxRLQEtFVQpgZ01/RBExq5h7p+EN0u+Nsk9RwOeU4d2irdF4pxhlWpKwmRQUlIRwL7/Urr0EWf8LT+z6P4yRpjvqw2spJ0m3S1jXn082I9CSRwPZE/6utA6XUDnsXWn4ouKa7X+qS2VZoGAa86gjW42iN3SYZ2YZ+1VgWrB/BzVunVFQWw6kSrscPL97X3fXFrrhcLcEjcRmFY2ZtlMP4HmMHKw1L5o1q1PpeBkW4O9T0FgC/RzpBXSzYsjgj/Ky2zJNxyk9MOO6OriwdqJf75HLKz1cHBTrdtW1Y3AR15sxhnwfEP8k0pi9v9ssOz8oWoVCkvj7sBx6aDEr3KXu6SmNcjLXE2Y1wb9BW2rDaIfguV9kidKc8TLgkzODxahJDfHYgx8k83MnmuUbOwGQ9PAHW+91j5E5WkObdmognfSKY+R0eCk67GEbWA3VhmCE/zXDDmx0e/1qf65nJI3w4V1jAkagwKDpkAt3b2j0hHkdmbRoh6VEqbT9qsuo9rNPhF0SeIvU7kLgo57B9tGG3h3Wn4EviWE/7mloODmHpWJQyjXjLvFFU+xog4TDoM+vQmWalv30iNgn1ujZK373uK5+G8AsTFeEsnJWPEXEYNYykLkivWXqolwuoLDs=
 env:
   global:
   - DOCKER_COMPOSE_VERSION=1.6.2
-  - DATABASE_PORT=27018
-  - secure: JSqis752yym1JjjN8R0eO2l9qS2eLdH1sRW3p4Ufyzn+lhzgqF6g6Ir1EV7GcUD/el7p9Yyul8yDOilB6p1o6re6z7tvMHQ3v0XP1GB9Uc8KGfYC54Jfoo/7MY8sFrr3UtfmgxJ+qdFUU3mkgRzBbNTqbz+9FDwV07yKgvwAD3xEw5Rvpw3c0VWdlomaPX2r6wz8eX/MKZA1TD7af/ENgz0lPcVzjhSZOuZD8kbR15ABcZzpkbZI1+dNZc1bvyWxUxOlKRA0haXqdwzpcp7aOAo+XsTMI5DhkYIXkjpqpwAkBdzd/bG6/bnzBwJH/3jghS1PnGxtBz9fIx8anch2PnATVI1OJ3pkk16aaOAhJDeLhJzec8m64NYYgwt+4qiOu0wJTVJrFRpo2sPxOJo/7T+i8t4nC4XwMTXjNmm9OBlNHCwtFkunPhxPjIt5BMyfJm8FMb1Ua02O5UyRE+LZeQZnfpE2/lIC+6GkiCZC4b9nVwaJBk+fZdz+BqewwO1Aq4IS5ZTL0JhUecYTLO1VKapN369dq6uxgCY9cTFdY91jrUsOYxOnwiGrUNPYXHrwYQMwkGd5J/y/wkjog3yYuS3MFGmzEIMhA4284GY6lUKKjkQaC6JYQPvF+TxzWyl0NccF7DFz6VmvfYMf+UtAJnOTGBWZqDbGqtt4mYclMyQ=
-  - secure: aCWhRMAp+iNTuams1VMvt2WrkhWjpHCUDEa+TgEPoCVRKjD2er0IqecmjlMetnxIVt8+xHDldjZynHAmbAFuU0JyY6ORmuzDggoPS/pJQy4k6mDpCFtS+tHCAwWtvsYOGgq1d8AlQ8p9hbLCNUNeS3Kjmv4GoQ7X5HAkUEQSLe2GXpdgHwy8LJdcQCnJ7HgpEsz6ZCE3r5w5JuzGJf5XaqzXHZUjnae9VWsx5aqVjlmg9iTbl012iUcL1hSFbPPMe+mXR9K/1ma8+CN5xg8a68NjOt64jAhZGKfI8OYADUCWRo44zNbkonyEW1qzgTStWi3U4V4zrnzkVJ9u423J0+VCrVsthwPhYyOD9yTL0BRQpAF17ry7SGkrbv9mTJF5FyietVodjPtpYSyhGJUZqzNNqQY8DeBRaAs81B49EPw6Jwe6IA6dCZE1P8UXvouQATe2c4qcLP33qnxtirea4m1SYUJB4nozbCud+I+4LIAjdj0QgZKhZo6A9H3pQVrETQjTgECEk/nkEZxhMhDXvoT9LscopoKzLACgD18wUd0zUHNs9hbXzkuZVC7KQpSmrw816AmFjNwU1Ba2p5J7GRMD+3yP8D4tG4arO767TIg3sNIV9mfKi92BFaP0XggVre83lwCtZC+ctJfO8YKAblz8psxJobPQ9PCQ1hCs/2o=
-  - secure: T5jLIst42RwPHN5FdMfY8UvPbnEcvuCzzZhUNKT4D7ColpmojDxuQx+f4IURYvHk7dGJj6E+nAsW9vgqcyr/U5QAg96FLWHoeJ1eofRuvlO68z5YWnhjI7svNHclrgGVvEHcu69vvs/TqpbEMhs6c1D+CcyAxYxP8kzy12rTMvGmrinIfvGlej2HV5ZW4vLCSjbyhjEpPqZ71a5Ga+Jns0cp7vCkz7Xygl0Qi+a79fMDG14zIB2R3bL9L2E/9omxGTpvyk03b/d11PMLQDHZvmScLmoudrEP13LymonHNhKVLTDlP8wGxQ+YCLdODN3pVMgYCm2Z91tzDCPEcG7T2NQkZSW56zzUElJk7bbsc/oWNBrgO1GcndbQK59koVdlua7JnaCTCaOGjyOiHqQ7fl7hiNzXkD2yUlKuj9Roz5UAxnLzAqBEyYqkOG5iupy/VjIfCrUAvv5W7LbOCn8JD+KqCzX7vxfmbWSY4XCJGMTd+wB0oUEbiGow+dyKVdEzogVI7NwPQnnD005CHQVyfIQBPihSMUCtyJ9WyYXommqAAKF5a9dN+tJ48o9UcrcTpeReoXbMnXa6YWThhLH8Trg6HkXutbNZPcp5o09pXtsXt9ng0cT13UT1WZZThQi3hNrOXkyL8JGRs6fsTEfkHmVfA6qLNMeUShOgxNCmbmA=
