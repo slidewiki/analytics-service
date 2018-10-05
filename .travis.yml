@@ -1,5 +1,6 @@
-language: node_js
-node_js: 8
+language: java
+jdk:
+- oraclejdk8
 sudo: required
 git:
   depth: 5
@@ -9,7 +10,7 @@ branches:
   - master
 cache:
   directories:
-  - "./application/node_modules"
+  - "./analytics/WEB-INF/lib"
 before_install:
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/install_compose.sh ; fi
 - cd application
