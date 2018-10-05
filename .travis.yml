@@ -10,7 +10,7 @@ branches:
   - master
 cache:
   directories:
-  - "./analytics/WEB-INF/lib"
+  - "./build/web/WEB-INF/lib"
 before_install:
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/install_compose.sh ; fi
 - cd application
