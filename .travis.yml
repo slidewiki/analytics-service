@@ -1,7 +1,9 @@
+sudo: required
 language: java
 jdk:
 - oraclejdk8
-sudo: required
+services:
+- docker
 git:
   depth: 5
 branches:
@@ -11,8 +13,8 @@ branches:
 cache:
   directories:
   - "./build/web/WEB-INF/lib"
-before_install:
-- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/install_compose.sh ; fi
+install:
+- echo "Install dependencies"
 before_script:
 - echo "Prepare to run the script section"
 script:
@@ -20,21 +22,17 @@ script:
 - echo "Execute Various Tests"
 - echo "Do More Checks"
 after_success:
-- openssl aes-256-cbc -K $encrypted_4cc90241bacd_key -iv $encrypted_4cc90241bacd_iv -in deployment_keys.tar.enc -out deployment_keys.tar -d
-- echo "Add script or change dockerhub.sh to have the docker build process working for this project"
-- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/dockerhub.sh ; fi
-- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then ./travis_scripts/deploy.sh ; fi
-- cd application
+- openssl aes-256-cbc -K $encrypted_f4ce2d2a5578_key -iv $encrypted_f4ce2d2a5578_iv
+  -in deployment_keys.tar.enc -out deployment_keys.tar -d
+- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
+  .travis/dockerhub.sh ; fi
+- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
+  .travis/deploy.sh ; fi
 after_script:
-- echo "Tidy Up"
 - rm -f deployment_keys.tar
-- rm -f ~/.docker/{cert.pem,key.pem,ca.pem,config.json}
-services:
-- docker
-notifications:
-  slack:
-    on_success: change
-    on_failure: always
+- rm -f ~/.docker/{cert,key,ca}.pem
 env:
   global:
-  - DOCKER_COMPOSE_VERSION=1.6.2
+  - secure: nLQb+kAmeEKg3+iaqc6tRs9cnslkM3lGmy2/H4khpHGS8q5IBOyEzGcj78ck63KoZeCiL11I6f/Bpfvb66xd0XQWx3v5cOo7LDlu06nsYRGaW8yOsJc3X+zvR50v8ApUyPn627DNtjtRkOoM34+VlznPnIFeEjobprazPZmL7w40qh2OZpBKhWm2R7eLEqibhWSuwmqGVKJs+ZdKT1sGML9R0IkuBhi273eCf7eC9Z6rzgCDsJr7MRS+lP25gcI/xmKkWaGo7keFgi2yjIJ7a4j54rU/dsCrWwCkyLG/I38kuJMxZEq+Z1nrnRiI4+STiH4NtpX0A5qGNHx8qO0HETiZ24zhm8ZJrjxZyCvvy4cy8yOr7vVTlXeL28tjtQTeeJ/Bex5hO6lTivdzxbtaqbjwW1XnGuPZvMjONISuPMpky/1FTCz2yiKMZfq5Oc19KjKbLu/Q7qy7uH7lUTllO7ALCfhOMWbjHahmx5Vm0aUEbVmGHCi3IqkjCUGKb0lUbTMYeAf4PFvwiO3Yrd+1jXUZIwWeH/yPbra+OdAJD5oiUfYjlnRkz23fYep7mY6UQyGZ0hy56CXA7kWIwe/5dF8FzNmVfNuB0GUYN7pFRWXIzmsURHlBrK2B7jxXNiYNKdsewXK7VM2AIPKx8w7fex4Aq/9j3ipgfsGht0PDeRU=
+  - secure: Sedb1W0uSkuX5/Vzq9RC2u95L+Qa/C0KfQYp66RkSnQ8gGXIiw+QpYzHN/4QYTQWdPvRSU0zTbqfRJFgzmDpb6A0Sgk3tN+I1m9yg6ETSG4YB9afLsmM7Hd3kpR9WBgf0R55evB7qbvVKyM4CsqJ6jdkX32jqydRFxvaMD4vpy8hd2OfaxV5AeARGmdQqSiJGphjb4V9KbBQ1ybZ9nxI5wPkV7VaZl3evqK6B6LjEq4groRbntOWeDZaq2ziNKXAp4UgTkmZuDm30fxsONTvhCQ5vJlglp5OSD5FR7QLM34QFED6hOmTnIqvKBWvUfRgdI4WM23JL2ZvxZLHqHTNCFB8kt0ddABawXffwVXilmn6ixyIz5CujvcyLkMaQGFCIpFiGkhcVncq5KQk+JUYUvNnUa37YNXvaGIMn1SWJaoj4bGsxEXxaS1hgC3esro3s5xO1V3yjqUsrZSI4kuMmOIeCbBs3oCrFd5uoamg2UutX2oX7JoE570O6kxKptyCzJ3v9KSJCFAkmEcuni7P24Sz3KcOTV0OX9ec5N5ZLkjofYoICNjlW2qUw4aJrXLBO0N41sQKIJ/4Iy0EL36p0KKTBv+lUuewfzOoIUsnzVZt5AdVNzmrxj2u0y0vqnrYx3balNP1tKjBa1TdsbIxMOr4s49XVxsB/cBZzWmzloA=
+  - secure: qQdkx4gDmT7dTOQFjeGj0fdE1Hh8v+d1GXAfSjeKxsi03ntNG9TaUk4j0MCHjRaKSZLNTIrDg7aFuyQ7JDKZP5r3CE1tw7pIXfU8d5KZ1cbkL4tTrHagpYFooZRgJchsHyuYU6E0ZqNLisfI5OEg2QQbV8XNomlpxlXqp604pijV/W++h0HOMinhaZ1yt+51OGcrz8H5qPpR5sEeBiUCscoeCN/Vzw9+VI8gGhelB2fllppJ77TEW6lEXBVLT/vJrAQUoVvfQLo0MqEzpwA4jx6/ixmSDPrlCDJANTS7iv7q1FnQf6cC9V6vfWWklk1MbxlkYVTuoo/n1oFXgLzd4OL7oYyaVeRFdEcSc9gS9Lc23QjJWJdbF+vjplt0Se9gLvUTJ0lEEKEuCiG+sajz7b8+RPPzrGZOJPTSDycoeBIE9LInFNgzZG8+u/IsWzFKP9RMx0eYIzHZkkNq4zDBIu054MynKepywhtvTxN3YpxJJPBjUVvrlJDatKK8BgA3i5cOGEulgee8ODT8OV632pagw8vGBV7tOm5pJm2r9/L1qdV61kHu/LSllzyroxG0JnDbW6z71rGhg3cwdAcoFV1eS4uNsiHrgDM3e14ibcOrJSVSdCXlxmyRx9BeWCYI1ru9Ca1yBUN6+xSx7YY3aMDky4dkxbTPXuxDdu4DmAk=
