@@ -44,7 +44,7 @@ public class PerformancePrediction {
         
 //        System.out.println(inputMatrix);
         
-        List predictions = inputMatrix.isEmpty() ? new ArrayList() : sparkIt(inputMatrix, student_id + "::" + deck_id + "::00");
+        List predictions = (inputMatrix.isEmpty() || noOfDecks < 5 || noOfStudents < 5) ? new ArrayList() : sparkIt(inputMatrix, student_id + "::" + deck_id + "::00");
         
         if (predictions.isEmpty() && useDummyData) {//Data is not valid - use demo data
             inputMatrix = studentExamMatrix.getDummyInputMatrix();//use testing data
